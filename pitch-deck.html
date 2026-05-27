@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FELDILMI - Pitch Deck</title>
+    <link rel="icon" type="image/png" href="Resources/feldilmi-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL THEME --- */
+        :root {
+            --bg-dark: #0f172a; 
+            --bg-card: #121212; 
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --brand-orange: #f97316;
+            --brand-orange-dim: rgba(249, 115, 22, 0.1);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+        }
+
+        .deck {
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            flex: 0 0 100vw;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* --- EQUAL CANVAS SIZING --- */
+        .slide-content {
+            width: 1000px;
+            height: 650px;
+            max-width: 95vw;
+            max-height: 95vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('Resources/candle-stick.jpg');
+	    background-size: cover;
+   	    background-position: center;
+   	    background-repeat: no-repeat;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.05);
+            border-top: 4px solid var(--brand-orange);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .slide-content h2 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--text-muted);
+            padding-bottom: 15px;
+            color: var(--brand-orange);
+        }
+
+        .slide-content p, .slide-content li {
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .grid-architecture { display: grid; grid-template-columns: 1.8fr 1fr; gap: 30px; align-items: center; }
+
+        /* --- TEAM SLIDE STYLES --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .team-member {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+        .profile-placeholder {
+            width: 100px;
+            height: 100px;
+            background: #334155;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .profile-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .team-member h4 { margin: 10px 0 5px; color: var(--brand-orange); font-size: 1.1rem; }
+        .team-member p { font-size: 0.85rem !important; color: var(--text-muted); margin: 0; line-height: 1.2; }
+
+        /* --- BUSINESS VALUE TILES --- */
+        .value-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .value-card {
+            background: var(--brand-orange-dim);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--brand-orange);
+        }
+        .value-card i { font-size: 1.8rem; color: var(--brand-orange); margin-bottom: 15px; }
+        .value-card h3 { margin: 0 0 10px 0; color: var(--text-main); font-size: 1.3rem; }
+        .value-card p { font-size: 1rem !important; margin: 0; color: var(--text-muted); }
+
+        /* --- RECONCILIATION CARDS --- */
+        .comparison-box { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; }
+        .card { background-color: #1e1e1e; padding: 25px; border-radius: 8px; width: 250px; border-top: 4px solid; }
+        .bank-card { border-color: #22c55e !important; }
+        .invoice-card { border-color: #3b82f6 !important; }
+        .amount { font-size: 2.2rem; font-weight: bold; margin: 15px 0; }
+        .bank-card .amount { color: #22c55e; }
+        .invoice-card .amount { color: #3b82f6; }
+        .alert { background-color: rgba(239, 68, 68, 0.15); color: #fca5a5; padding: 15px; border-radius: 6px; border: 1px solid #ef4444; }
+
+        .slide-number { position: absolute; bottom: 30px; right: 40px; color: var(--text-muted); font-weight: bold; }
+        .nav-hint { position: fixed; bottom: 30px; left: 40px; color: var(--text-muted); font-size: 0.9rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+    <div class="deck" id="deckContainer">
+        
+        <section class="slide">
+            <div class="slide-content" style="text-align: center;">
+                <img src="Resources/feldilmi-logo.png" alt="FELDILMI Logo" style="height: 150px; margin-bottom: 20px; object-fit: contain;">
+                <h1 style="color: var(--brand-orange); font-family: 'Times New Roman', serif; text-transform: uppercase; font-size: 3rem; margin: 0;">FELDILMI</h1>
+                <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 30px;">TREASURYFLOW AI</p>
+                <div style="font-size: 1.4rem; color: var(--text-muted); font-style: italic; border-left: 4px solid var(--brand-orange); padding-left: 20px; text-align: left; max-width: 800px; margin: 0 auto;">
+                    "Automating financial reconciliation through intelligent semantic matching and historical data processing featuring Morpheus DeAI & Chutes TEE."
+                </div>
+            </div>
+            <div class="slide-number">1 / 8</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h2>Meet the Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="profile-placeholder"><img src="Resources/danial.png" alt="Danial"></div>
+                        <h4>Danial Fitri</h4>
+                        <p>Frontend Engineer | Leader</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="profile-placeholder"><img src="Resources/ayman.png" alt="Ayman"></div>
+                        <h4>Ayman Al-Mursyid</h4>
+                        <p>Full-stack & AI Engineer</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="profile-placeholder"><img src="Resources/kai.png" alt="Kai"></div>
+                        <h4>Khairul Azizi</h4>
+                        <p>Full-stack & Infrastructure Engineer</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="profile-placeholder"><img src="Resources/hadi.jpeg" alt="Hadi"></div>
+                        <h4>Hadi Hilmi</h4>
+                        <p>Frontend Engineer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2 / 8</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h2>Business Values</h2>
+                <div class="value-grid">
+                    <div class="value-card">
+                        <i class="fa-solid fa-bolt"></i>
+                        <h3>Operational Efficiency</h3>
+                        <p>Reduce reconciliation turnaround from days to seconds, allowing staff to focus on high-value strategy.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fa-solid fa-database"></i>
+                        <h3>Risk Mitigation</h3>
+                        <p>Eliminate human error in manual data entry and currency conversion with 99% extraction accuracy.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fa-solid fa-money-check"></i>
+                        <h3>Financial Clarity</h3>
+                        <p>Real-time updates on unmatched invoices give business owners a clear, instant view of their liquidity.</p>
+                    </div>
+	            <div class="value-card">
+                        <i class="fa-solid fa-search"></i>
+                        <h3>Transparency</h3>
+                        <p>Allow business owners to look for invoices and payment proofs of every transactions made.</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slide-number">3 / 8</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content" style="text-align: center;">
+                <h2 style="border:none; text-transform: none; font-family: inherit;">The Reconciliation Bottleneck</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Manual currency matching causes friction and delays for SMEs.</p>
+                <div class="comparison-box">
+                    <div class="card bank-card">
+                        <h3><i class="fa-solid fa-building-columns"></i> Local Bank</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin: 5px 0;">Statement Deposit</p>
+                        <div class="amount">RM 42.50</div>
+                    </div>
+                    <div style="font-size: 2.5rem; color: #ef4444; font-weight: bold; display: flex; align-items: center;">≠</div>
+                    <div class="card invoice-card">
+                        <h3><i class="fa-solid fa-clipboard-list"></i> Payment Proof</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin: 5px 0;">System Invoice</p>
+                        <div class="amount">USD 10.00</div>
+                    </div>
+                </div>
+                <div class="alert">
+                    ⚠️ <strong>Reconciliation Failed:</strong> Manual matching and unstructured payment proofs are tedious, error-prone, and cost SMEs hundreds of man-hours monthly.
+                </div>
+            </div>
+            <div class="slide-number">4 / 8</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h2>The FELDILMI Solution</h2>
+                <div class="grid-2" style="align-items: stretch;">
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <p>Even when numbers match perfectly, manual reconciliation is tedious. TREASURYFLOW AI solves this effortlessly:</p>
+                        <ul>
+                            <li><strong>Automated Pipeline:</strong> Digests any financial document instantly.</li>
+                            <li><strong>Semantic Matching:</strong> Uses AI to understand the context of a purchase (names, codes) to link records accurately.</li>
+                            <li><strong>Real-Time Standardization:</strong> Automatically handles multi-currency conversions seamlessly.</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px dashed var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div class="comparison-box" style="flex-direction: column; gap: 10px; margin-bottom: 15px; width: 100%; align-items: center;">
+                            <div class="card bank-card" style="width: 90%; padding: 15px;">
+                                <h3><i class="fa-solid fa-building-columns"></i> Bank Record</h3>
+                                <div class="amount" style="font-size: 1.5rem; margin: 5px 0;">RM 42.50</div>
+                                <p style="font-size: 0.8rem; color: #94a3b8; margin: 0;">Ref: <strong>INV-882 (Ali)</strong></p>
+                            </div>
+                            <div style="color: #22c55e; font-size: 1.5rem;"><i class="fa-solid fa-link"></i> AI Matched</div>
+                            <div class="card bank-card" style="width: 90%; padding: 15px; border-color: #22c55e !important;">
+                                <h3><i class="fa-solid fa-clipboard-list"></i> Parsed Invoice</h3>
+                                <div class="amount" style="font-size: 1.5rem; margin: 5px 0;">RM 42.50</div>
+                                <p style="font-size: 0.8rem; color: #94a3b8; margin: 0;">Client: <strong>Ali bin Abu | #882</strong></p>
+                            </div>
+                        </div>
+                        <div style="background-color: rgba(34, 197, 94, 0.15); color: #86efac; padding: 10px; border-radius: 6px; border: 1px solid #22c55e; font-size: 0.9rem; width: 90%; box-sizing: border-box;">
+                            ✅ <strong>Semantic Linked:</strong> AI paired these records via extraction of contextual identity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">5 / 8</div>
+        </section>
+
+	<section class="slide">
+            <div class="slide-content" style="display: flex; flex-direction: column;">
+                <h2 style="margin-bottom: 20px;">Agent Framework Diagram</h2>
+                
+                <div style="background: #ffffff; border-radius: 12px; padding: 15px; width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(249, 115, 22, 0.5); overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.3); margin-bottom: 20px;">
+                    <img src="Resources/AFD-feldilmi.png" alt="Architecture Diagram" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1rem; text-align: center; color: var(--text-muted);">
+                    <div style="flex: 1;">
+                        <strong style="color: var(--brand-orange);"><i class="fa-brands fa-python"></i> Orchestrator:</strong> Secure core logic
+                    </div>
+                    <div style="flex: 1;">
+                        <strong style="color: var(--brand-orange);"><i class="fa-solid fa-table"></i> Pandas:</strong> Rapid data validation
+                    </div>
+                    <div style="flex: 1;">
+                        <strong style="color: var(--brand-orange);"><i class="fa-solid fa-database"></i> Supabase:</strong> Relational tracking
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">6 / 8</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h2>Tech Stack</h2>
+                <div class="grid-2">
+                    <div>
+                        <p style="color: var(--brand-orange); font-weight: bold;"><i class="fa-brands fa-js"></i> Frontend</p>
+                        <p>Next.js, Tailwind CSS</p>
+                        <p style="color: var(--brand-orange); font-weight: bold; margin-top: 20px;"><i class="fa-solid fa-robot"></i> AI</p>
+                        <p>Chutes, Morpheus</p>
+                    </div>
+                    <div>
+                        <p style="color: var(--brand-orange); font-weight: bold;"><i class="fa-brands fa-python"></i> Backend</p>
+                        <p>Python FastAPI, Frankfurter Forex API, Pandas</p>
+                        <p style="color: var(--brand-orange); font-weight: bold; margin-top: 20px;"><i class="fa-solid fa-database"></i> Database</p>
+                        <p>Supabase</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">7 / 8</div>
+        </section>
+
+                <section class="slide">
+            <div class="slide-content" style="text-align: center;">
+                <h1 style="color: var(--text-main); font-size: 3.5rem; margin-bottom: 20px;">Thank You!</h1>
+                <p style="color: var(--brand-orange); font-size: 2rem; font-weight: bold; margin: 0;">FELDILMI</p>
+            </div>
+            <div class="slide-number">8 / 8</div>
+        </section>
+
+    </div>
+    
+    <div class="nav-hint"><i class="fa-solid fa-keyboard"></i> Use Arrow Keys to navigate</div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        window.addEventListener("keydown", function(e) {
+            if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.code === 'Space') {
+                if (currentSlideIndex < totalSlides - 1) {
+                    currentSlideIndex++;
+                    updateSlideView();
+                }
+            } 
+            else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                if (currentSlideIndex > 0) {
+                    currentSlideIndex--;
+                    updateSlideView();
+                }
+            }
+        });
+
+        function updateSlideView() {
+            slides[currentSlideIndex].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+        }
+    </script>
+</body>
+</html>
